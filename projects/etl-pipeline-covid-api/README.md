@@ -22,19 +22,21 @@ This pipeline enables the automated collection of COVID-19 stats (cases, deaths,
 
 ## 📁 Project Structure
 <details> <summary>📁 Click to expand - Project Directory Tree</summary>
-etl-pipeline-covid-api/
-│
-├── dags/                  # Airflow DAGs for orchestration
-├── scripts/               # ETL scripts: extract, transform, load
-│   ├── extract.py
-│   ├── transform.py
-│   ├── load.py
-│   └── run_etl.py
-├── .env                   # Environment variables (DB credentials, etc.)
-├── Dockerfile             # Custom Airflow image with Poetry
-├── docker-compose.yml     # Services: airflow, postgres, scheduler
-├── pyproject.toml         # Poetry-based dependency management
-└── README.md              # You are here
+    ```
+    etl-pipeline-covid-api/
+    │
+    ├── dags/                  # Airflow DAGs for orchestration
+    ├── scripts/               # ETL scripts: extract, transform, load
+    │   ├── extract.py
+    │   ├── transform.py
+    │   ├── load.py
+    │   └── run_etl.py
+    ├── .env                   # Environment variables (DB credentials, etc.)
+    ├── Dockerfile             # Custom Airflow image with Poetry
+    ├── docker-compose.yml     # Services: airflow, postgres, scheduler
+    ├── pyproject.toml         # Poetry-based dependency management
+    └── README.md              # You are here
+    ```
 </details>
 ---
 
