@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "etl-pipeline-covid-api"
+version = "0.1.0"
+description = ""
+authors = ["codesVarun <singhvarun9554@gmail.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "*"
+requests = "*"
+python-dotenv = "^1.0.1"
+numpy = "<2.0" 
+pyarrow = "^11.0.0" 
+sqlalchemy = "1.4.49"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
