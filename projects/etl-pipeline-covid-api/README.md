@@ -21,7 +21,6 @@ This pipeline enables the automated collection of COVID-19 stats (cases, deaths,
 ---
 
 ## 📁 Project Structure
-<details> <summary>📁 Click to expand - Project Directory Tree</summary>
     ```
     etl-pipeline-covid-api/
     │
@@ -37,7 +36,6 @@ This pipeline enables the automated collection of COVID-19 stats (cases, deaths,
     ├── pyproject.toml         # Poetry-based dependency management
     └── README.md              # You are here
     ```
-</details>
 ---
 
 ## 🛠️ Tech Stack
