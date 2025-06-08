@@ -21,7 +21,7 @@ This pipeline enables the automated collection of COVID-19 stats (cases, deaths,
 ---
 
 ## 📁 Project Structure
-
+<details> <summary>📁 Click to expand - Project Directory Tree</summary>
 etl-pipeline-covid-api/
 │
 ├── dags/ # Airflow DAGs for orchestration
@@ -35,7 +35,7 @@ etl-pipeline-covid-api/
 ├── docker-compose.yml # Services: airflow, postgres, scheduler
 ├── pyproject.toml # Poetry-based dependency management
 └── README.md # You are here
-
+</details>
 ---
 
 ## 🛠️ Tech Stack
