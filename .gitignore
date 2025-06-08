@@ -1,0 +1,74 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.ipynb_checkpoints
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
+.env
+.venv/
+venv/
+ENV/
+env.bak/
+env/
+
+# VSCode/IDE
+.vscode/
+.idea/
+
+# Mac OS
+.DS_Store
+
+# Logs
+*.log
+
+# Airflow
+airflow.cfg
+unittests.cfg
+*.pid
+airflow.db
+logs/
+
+# Spark
+.metastore_db/
+spark-warehouse/
+derby.log
+
+# Docker
+**/docker-compose.override.yml
+**/.docker/
+
+# Terraform (if you use it)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Node (if you add UI or frontend tools)
+node_modules/
+
+# JARs and binaries
+*.jar
+*.war
+*.class
+
+# AWS/GCP credentials (never commit these!)
+.aws/
+.gcp/
+
+# General Secrets
+secrets.yaml
+credentials.json
+*.key
+*.pem
+
+# Project-specific artifacts
+data/
+tmp/
+output/

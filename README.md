@@ -68,8 +68,9 @@ All daily learnings are tracked in the [`daily-logs/`](./daily-logs) folder, org
 
 ## 🙌 Let's Connect
 
-📫 [LinkedIn](https://www.linkedin.com/in/your-profile)  
-📁 [My Resume](./resume/varun_data_engineer_resume.pdf)
+- 🌐 [**Portfolio** – codesvarun.dev](https://www.codesvarun.dev/)
+- 🔗 [**LinkedIn** – /in/codesvarun](https://www.linkedin.com/in/codesvarun)
+- 📄 [**Resume** (PDF)](./resume/varun_data_engineer_resume.pdf)
 
 ---
 
