@@ -1,21 +1,102 @@
-import os
-from sqlalchemy import create_engine
-from sqlalchemy.engine import Engine
-from dotenv import load_dotenv
-import pandas as pd  # required to avoid hidden runtime issues
+from airflow.providers.postgres.hooks.postgres import PostgresHook
+import pandas as pd
+import logging
 
-load_dotenv()
+def load_data(df_continents, df_countries):
+    try:
+        logging.info("Loading data to database...")
 
-def get_database_uri():
-    return f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@" \
-           f"{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DB')}"
+        postgres_hook = PostgresHook(postgres_conn_id='postgres_default')
+        
+        # Drop existing tables
+        postgres_hook.run("DROP TABLE IF EXISTS covid_continent_stats;")
+        postgres_hook.run("DROP TABLE IF EXISTS covid_country_stats;")
+        
+        logging.info("Creating tables...")
+        
+        # Get column info from DataFrames and create tables dynamically
+        def get_column_type(series):
+            if series.dtype == 'object':
+                return 'TEXT'
+            elif series.dtype in ['int64', 'int32']:
+                return 'BIGINT'
+            elif series.dtype in ['float64', 'float32']:
+                return 'FLOAT'
+            else:
+                return 'TEXT'
+        
+        # Create continent table
+        continent_cols = []
+        for col in df_continents.columns:
+            col_type = get_column_type(df_continents[col])
+            continent_cols.append(f'"{col}" {col_type}')
+        
+        create_continent_sql = f"""
+        CREATE TABLE covid_continent_stats (
+            {', '.join(continent_cols)}
+        );
+        """
+        
+        postgres_hook.run(create_continent_sql)
+        
+        # Create country table
+        country_cols = []
+        for col in df_countries.columns:
+            col_type = get_column_type(df_countries[col])
+            country_cols.append(f'"{col}" {col_type}')
+        
+        create_country_sql = f"""
+        CREATE TABLE covid_country_stats (
+            {', '.join(country_cols)}
+        );
+        """
+        
+        postgres_hook.run(create_country_sql)
+        
+        # Insert continent data
+        logging.info(f"Loading {len(df_continents)} continent records...")
+        
+        continent_data = []
+        for _, row in df_continents.iterrows():
+            # Convert row to list, handling NaN values
+            row_data = []
+            for val in row.values:
+                if pd.isna(val):
+                    row_data.append(None)
+                else:
+                    row_data.append(val)
+            continent_data.append(tuple(row_data))
+        
+        postgres_hook.insert_rows(
+            table="covid_continent_stats",
+            rows=continent_data,
+            target_fields=[f'"{col}"' for col in df_continents.columns]
+        )
+        
+        # Insert country data
+        logging.info(f"Loading {len(df_countries)} country records...")
+        
+        country_data = []
+        for _, row in df_countries.iterrows():
+            # Convert row to list, handling NaN values
+            row_data = []
+            for val in row.values:
+                if pd.isna(val):
+                    row_data.append(None)
+                else:
+                    row_data.append(val)
+            country_data.append(tuple(row_data))
+        
+        postgres_hook.insert_rows(
+            table="covid_country_stats",
+            rows=country_data,
+            target_fields=[f'"{col}"' for col in df_countries.columns]
+        )
 
-def load_data(df_continents: pd.DataFrame, df_countries: pd.DataFrame):
-    engine = create_engine(get_database_uri())
+        logging.info("✅ Data loaded successfully!")
 
-    if not isinstance(engine, Engine):
-        raise TypeError("Expected a SQLAlchemy Engine object")
-
-    with engine.connect() as connection:
-        df_continents.to_sql("covid_continent_stats", connection, if_exists="append", index=False)
-        df_countries.to_sql("covid_continent_countries", connection, if_exists="append", index=False)
+    except Exception as e:
+        logging.error(f"❌ Error loading data: {str(e)}")
+        logging.error(f"Continent columns: {list(df_continents.columns)}")
+        logging.error(f"Country columns: {list(df_countries.columns)}")
+        raise
