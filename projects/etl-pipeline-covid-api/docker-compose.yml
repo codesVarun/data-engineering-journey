@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 x-airflow-common: &airflow-common
   build:
@@ -9,9 +9,9 @@ x-airflow-common: &airflow-common
   environment:
     AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
-    AIRFLOW__CORE__FERNET_KEY: ''
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
-    AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
+    AIRFLOW__CORE__FERNET_KEY: ""
+    AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+    AIRFLOW__API__AUTH_BACKENDS: "airflow.api.auth.backend.basic_auth"
     PYTHONPATH: /opt/airflow/scripts:/opt/airflow/dags:/opt/airflow/include
   volumes:
     - ./scripts:/opt/airflow/scripts
@@ -64,6 +64,25 @@ services:
     container_name: airflow-scheduler
     command: scheduler
     restart: always
+
+  covid-dashboard:
+    build:
+      context: ./visualizations
+      dockerfile: Dockerfile
+    working_dir: /app
+    env_file:
+      - .env 
+    container_name: covid-dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:
