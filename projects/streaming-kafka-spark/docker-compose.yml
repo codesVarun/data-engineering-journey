@@ -1,0 +1,161 @@
+services:
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    environment:
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_NUM_PARTITIONS=3
+      - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=1
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_KRAFT_CLUSTER_ID=abcdefg-12345-cluster
+      - KAFKA_CFG_LOG_RETENTION_HOURS=24
+      - KAFKA_CFG_LOG_SEGMENT_BYTES=1073741824
+    ports:
+      - "9092:9092"
+    networks:
+      - streaming-network
+    volumes:
+      - kafka_data:/bitnami/kafka
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server localhost:9092 --list"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  postgres_streaming:
+    image: postgres:15
+    container_name: postgres_streaming
+    environment:
+      - POSTGRES_DB=streaming_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata_new:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - streaming-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  dashboard:
+    build:
+      context: ./dashboard
+    container_name: streamlit_dashboard
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres_streaming
+    networks:
+      - streaming-network
+  spark-master:
+    image: bitnami/spark:3.3.2
+    container_name: spark-master
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_MASTER_OPTS=-Dspark.deploy.defaultCores=2
+    ports:
+      - "8081:8080"
+      - "7077:7077"
+    networks:
+      - streaming-network
+    healthcheck:
+      disable: true
+
+  spark-worker:
+    image: bitnami/spark:3.3.2
+    container_name: spark-worker
+    depends_on:
+      spark-master:
+        condition: service_healthy
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=2g
+      - SPARK_WORKER_CORES=2
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - "8082:8081"
+    networks:
+      - streaming-network
+
+  producer:
+    build:
+      context: .
+      dockerfile: Dockerfile.producer
+    container_name: producer
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=streaming_data
+      - STREAM_INTERVAL=2
+    networks:
+      - streaming-network
+    restart: unless-stopped
+
+  spark-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.spark-app
+    container_name: spark-app
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres_streaming:
+        condition: service_healthy
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=streaming_data
+      - POSTGRES_URL=jdbc:postgresql://postgres_streaming:5432/streaming_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - CHECKPOINT_LOCATION=/tmp/checkpoint
+      - STREAMING_MODE=debug  # Change to 'parsed' or 'postgres' as needed
+    volumes:
+      - ./checkpoint:/tmp/checkpoint
+    networks:
+      - streaming-network
+    restart: unless-stopped
+
+  # Optional: Kafka UI for monitoring
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    networks:
+      - streaming-network
+
+volumes:
+  kafka_data:
+  pgdata_new:
+
+networks:
+  streaming-network:
+    driver: bridge

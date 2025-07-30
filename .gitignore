@@ -72,3 +72,6 @@ credentials.json
 data/
 tmp/
 output/
+
+# Spark Streaming Checkpoints
+projects/streaming-kafka-spark/checkpoint/
