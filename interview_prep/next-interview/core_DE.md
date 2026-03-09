@@ -44,12 +44,12 @@ Unlike a data warehouse, a data lake stores data **without a predefined schema**
 ┌─────────────────────────────────────────────────┐
 │                   DATA LAKE                     │
 │                                                 │
-│  ┌───────────┐  ┌───────────┐  ┌────────────┐  │
-│  │   RAW     │  │ PROCESSED │  │  CURATED   │  │
-│  │  Landing  │  │  Cleaned  │  │ Aggregated │  │
-│  │  CSV/JSON │→ │  Parquet  │→ │  Parquet   │  │
-│  │  As-is    │  │  Filtered │  │  BI-ready  │  │
-│  └───────────┘  └───────────┘  └────────────┘  │
+│  ┌───────────┐  ┌───────────┐  ┌────────────┐   │
+│  │   RAW     │  │ PROCESSED │  │  CURATED   │   │
+│  │  Landing  │  │  Cleaned  │  │ Aggregated │   │
+│  │  CSV/JSON │→ │  Parquet  │→ │  Parquet   │   │
+│  │  As-is    │  │  Filtered │  │  BI-ready  │   │
+│  └───────────┘  └───────────┘  └────────────┘   │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -180,15 +180,15 @@ A **Data Lakehouse** is a modern architecture that **combines the best of data l
 ┌─────────────────────────────────────────────┐
 │              DATA LAKEHOUSE                 │
 │                                             │
-│  Object Storage (S3 / ADLS / GCS)          │
+│  Object Storage (S3 / ADLS / GCS)           │
 │  +                                          │
 │  Open Table Format (Delta / Iceberg / Hudi) │
 │  = ACID + Schema + Performance              │
 │                                             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
-│  │  Bronze  │→ │  Silver  │→ │   Gold   │  │
-│  │  Raw     │  │ Cleaned  │  │Aggregated│  │
-│  └──────────┘  └──────────┘  └──────────┘  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │  Bronze  │→ │  Silver  │→ │   Gold   │   │
+│  │  Raw     │  │ Cleaned  │  │Aggregated│   │
+│  └──────────┘  └──────────┘  └──────────┘   │
 └─────────────────────────────────────────────┘
 ```
 
