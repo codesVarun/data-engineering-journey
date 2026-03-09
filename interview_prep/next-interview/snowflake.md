@@ -1,4 +1,4 @@
-\# Snowflake Interview Preparation (Data Engineer)
+# Snowflake Interview Preparation (Data Engineer)
 
 > A comprehensive guide covering key Snowflake concepts commonly asked in Data Engineering interviews.
 
