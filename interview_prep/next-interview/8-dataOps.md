@@ -34,24 +34,24 @@ It applies software engineering best practices — version control, automated te
 
 ### Core Principles of DataOps
 
-| Principle | Description |
-|---|---|
-| **Version control** | All pipeline code, configs, and SQL tracked in Git |
+| Principle             | Description                                             |
+| --------------------- | ------------------------------------------------------- |
+| **Version control**   | All pipeline code, configs, and SQL tracked in Git      |
 | **Automated testing** | Data quality checks run automatically before deployment |
-| **CI/CD** | Pipelines built, tested, and deployed automatically |
-| **Collaboration** | Shared codebase, code reviews, pull requests |
-| **Monitoring** | Pipelines observed and alerted on in production |
-| **Repeatability** | Environments reproducible — same result every run |
+| **CI/CD**             | Pipelines built, tested, and deployed automatically     |
+| **Collaboration**     | Shared codebase, code reviews, pull requests            |
+| **Monitoring**        | Pipelines observed and alerted on in production         |
+| **Repeatability**     | Environments reproducible — same result every run       |
 
 ### DataOps vs DevOps
 
-| Feature | DevOps | DataOps |
-|---|---|---|
-| Focus | Application software | Data pipelines and workflows |
-| Output | Running applications | Reliable data products |
-| Testing | Unit/integration tests | Data quality + pipeline tests |
-| Key tools | Jenkins, GitHub Actions | Airflow, dbt, Great Expectations |
-| Deployment | Code releases | Pipeline and schema changes |
+| Feature    | DevOps                  | DataOps                          |
+| ---------- | ----------------------- | -------------------------------- |
+| Focus      | Application software    | Data pipelines and workflows     |
+| Output     | Running applications    | Reliable data products           |
+| Testing    | Unit/integration tests  | Data quality + pipeline tests    |
+| Key tools  | Jenkins, GitHub Actions | Airflow, dbt, Great Expectations |
+| Deployment | Code releases           | Pipeline and schema changes      |
 
 ---
 
@@ -71,13 +71,13 @@ Every developer has a **full copy of the repository** including its entire histo
 
 ### Git vs GitHub vs GitLab vs Bitbucket
 
-| Tool | Type | Description |
-|---|---|---|
-| **Git** | Version control system | The tool itself — runs locally |
-| **GitHub** | Cloud hosting platform | Host Git repos, PRs, Actions |
-| **GitLab** | Cloud hosting platform | Similar to GitHub, built-in CI/CD |
-| **Bitbucket** | Cloud hosting platform | Atlassian product, integrates with Jira |
-| **Azure DevOps** | Cloud hosting platform | Microsoft ecosystem |
+| Tool             | Type                   | Description                             |
+| ---------------- | ---------------------- | --------------------------------------- |
+| **Git**          | Version control system | The tool itself — runs locally          |
+| **GitHub**       | Cloud hosting platform | Host Git repos, PRs, Actions            |
+| **GitLab**       | Cloud hosting platform | Similar to GitHub, built-in CI/CD       |
+| **Bitbucket**    | Cloud hosting platform | Atlassian product, integrates with Jira |
+| **Azure DevOps** | Cloud hosting platform | Microsoft ecosystem                     |
 
 ---
 
@@ -193,12 +193,12 @@ git branch -d feature/add-aurora-connector
 
 ### Merging vs Rebasing
 
-| Feature | Merge | Rebase |
-|---|---|---|
-| History | Preserves full history with merge commit | Linear, cleaner history |
-| Conflict handling | Resolved once at merge | Resolved commit by commit |
-| Use case | Feature branches merging to main | Keeping feature branch up-to-date |
-| Safety | Safer — non-destructive | Rewrites history — avoid on shared branches |
+| Feature           | Merge                                    | Rebase                                      |
+| ----------------- | ---------------------------------------- | ------------------------------------------- |
+| History           | Preserves full history with merge commit | Linear, cleaner history                     |
+| Conflict handling | Resolved once at merge                   | Resolved commit by commit                   |
+| Use case          | Feature branches merging to main         | Keeping feature branch up-to-date           |
+| Safety            | Safer — non-destructive                  | Rewrites history — avoid on shared branches |
 
 ```bash
 # Merge feature branch into main
@@ -246,13 +246,13 @@ feature/A ────┘         │
 feature/B ──────────────┘
 ```
 
-| Branch | Purpose |
-|---|---|
-| `main` | Production-ready code only |
-| `develop` | Integration branch for features |
-| `feature/*` | Individual feature development |
-| `release/*` | Prep for a new release |
-| `hotfix/*` | Emergency production fixes |
+| Branch      | Purpose                         |
+| ----------- | ------------------------------- |
+| `main`      | Production-ready code only      |
+| `develop`   | Integration branch for features |
+| `feature/*` | Individual feature development  |
+| `release/*` | Prep for a new release          |
+| `hotfix/*`  | Emergency production fixes      |
 
 ### Trunk-Based Development
 
@@ -287,16 +287,16 @@ Simple two-level model — feature branches off main, merged via Pull Request. C
 
 ### Key GitHub Features for Data Engineers
 
-| Feature | Description |
-|---|---|
-| **Repositories** | Host pipeline code, dbt models, SQL, configs |
-| **Pull Requests** | Propose, review, and merge code changes |
-| **Issues** | Track bugs, tasks, and feature requests |
-| **GitHub Actions** | Built-in CI/CD automation |
-| **Branch Protection** | Enforce PR reviews before merging to main |
-| **Secrets** | Store credentials securely for CI/CD |
-| **GitHub Packages** | Host Python packages or Docker images |
-| **GitHub Pages** | Host documentation sites |
+| Feature               | Description                                  |
+| --------------------- | -------------------------------------------- |
+| **Repositories**      | Host pipeline code, dbt models, SQL, configs |
+| **Pull Requests**     | Propose, review, and merge code changes      |
+| **Issues**            | Track bugs, tasks, and feature requests      |
+| **GitHub Actions**    | Built-in CI/CD automation                    |
+| **Branch Protection** | Enforce PR reviews before merging to main    |
+| **Secrets**           | Store credentials securely for CI/CD         |
+| **GitHub Packages**   | Host Python packages or Docker images        |
+| **GitHub Pages**      | Host documentation sites                     |
 
 ### Remote Repository Commands
 
@@ -372,25 +372,25 @@ A **Pull Request (PR)** is a GitHub mechanism to propose merging changes from on
 
 Automatically runs tests and checks every time code is pushed or a PR is opened.
 
-| CI Check | Description |
-|---|---|
-| **Unit tests** | Test individual transformation functions |
-| **SQL linting** | Check SQL style and syntax (sqlfluff) |
-| **dbt compile** | Validate dbt models compile without errors |
-| **Data quality tests** | Run Great Expectations or dbt tests |
-| **Code linting** | Python style checks (flake8, black) |
-| **Security scan** | Check for hardcoded credentials |
+| CI Check               | Description                                |
+| ---------------------- | ------------------------------------------ |
+| **Unit tests**         | Test individual transformation functions   |
+| **SQL linting**        | Check SQL style and syntax (sqlfluff)      |
+| **dbt compile**        | Validate dbt models compile without errors |
+| **Data quality tests** | Run Great Expectations or dbt tests        |
+| **Code linting**       | Python style checks (flake8, black)        |
+| **Security scan**      | Check for hardcoded credentials            |
 
 ### Continuous Deployment (CD)
 
 Automatically deploys the pipeline to staging or production after CI passes.
 
-| CD Step | Description |
-|---|---|
-| **Deploy to staging** | Run pipeline in a staging environment first |
-| **Smoke tests** | Validate output in staging |
-| **Deploy to production** | Push validated code to production |
-| **Notify team** | Slack/email notification on deploy |
+| CD Step                  | Description                                 |
+| ------------------------ | ------------------------------------------- |
+| **Deploy to staging**    | Run pipeline in a staging environment first |
+| **Smoke tests**          | Validate output in staging                  |
+| **Deploy to production** | Push validated code to production           |
+| **Notify team**          | Slack/email notification on deploy          |
 
 ### CI/CD Triggers
 
@@ -415,15 +415,15 @@ In data engineering, Jenkins automates the **build, test, and deployment of data
 
 ### Key Features
 
-| Feature | Description |
-|---|---|
-| **Open source** | Free, large community, extensive plugins |
-| **Plugin ecosystem** | 1,800+ plugins for tools like Git, Docker, AWS, Slack |
-| **Pipeline as code** | Define CI/CD pipelines in a `Jenkinsfile` |
-| **Distributed builds** | Master-agent architecture for parallel jobs |
-| **Scheduling** | Built-in cron-based job scheduling |
-| **Integration** | Works with GitHub, GitLab, Bitbucket, Jira |
-| **Self-hosted** | Full control — runs on your own infrastructure |
+| Feature                | Description                                           |
+| ---------------------- | ----------------------------------------------------- |
+| **Open source**        | Free, large community, extensive plugins              |
+| **Plugin ecosystem**   | 1,800+ plugins for tools like Git, Docker, AWS, Slack |
+| **Pipeline as code**   | Define CI/CD pipelines in a `Jenkinsfile`             |
+| **Distributed builds** | Master-agent architecture for parallel jobs           |
+| **Scheduling**         | Built-in cron-based job scheduling                    |
+| **Integration**        | Works with GitHub, GitLab, Bitbucket, Jira            |
+| **Self-hosted**        | Full control — runs on your own infrastructure        |
 
 ---
 
@@ -433,10 +433,10 @@ In data engineering, Jenkins automates the **build, test, and deployment of data
 ┌─────────────────────────────────────────────────┐
 │               JENKINS MASTER                    │
 │                                                 │
-│  ┌─────────┐  ┌──────────┐  ┌───────────────┐  │
-│  │ Job     │  │  Build   │  │   Plugin      │  │
-│  │ Config  │  │  Queue   │  │   Manager     │  │
-│  └─────────┘  └──────────┘  └───────────────┘  │
+│  ┌─────────┐  ┌──────────┐  ┌───────────────┐   │
+│  │ Job     │  │  Build   │  │   Plugin      │   │
+│  │ Config  │  │  Queue   │  │   Manager     │   │
+│  └─────────┘  └──────────┘  └───────────────┘   │
 │                    │                            │
 └────────────────────┼────────────────────────────┘
                      │ Distributes tasks
@@ -664,12 +664,11 @@ name: Data Pipeline CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-
   lint-and-test:
     runs-on: ubuntu-latest
 
@@ -680,7 +679,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -704,7 +703,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dbt
         run: pip install dbt-snowflake
@@ -736,29 +735,31 @@ jobs:
 
 ## 14. GitHub Actions vs Jenkins
 
-| Feature | GitHub Actions | Jenkins |
-|---|---|---|
-| Hosting | Cloud (GitHub-managed) | Self-hosted |
-| Setup | Zero setup — built into GitHub | Requires installation & maintenance |
-| Config format | YAML | Groovy (Jenkinsfile) |
-| Cost | Free for public repos, paid minutes for private | Free (infrastructure cost only) |
-| Plugin ecosystem | GitHub Marketplace actions | 1,800+ plugins |
-| Scalability | Auto-scales (GitHub runners) | Manual agent management |
-| Secrets management | GitHub Secrets (built-in) | Jenkins Credentials plugin |
-| Integration | Native GitHub (PRs, branches, tags) | Webhooks, plugins |
-| Docker support | Yes | Yes |
-| Best for | GitHub-hosted projects, modern teams | On-premise, enterprise, complex pipelines |
-| Learning curve | Low | Medium–High |
+| Feature            | GitHub Actions                                  | Jenkins                                   |
+| ------------------ | ----------------------------------------------- | ----------------------------------------- |
+| Hosting            | Cloud (GitHub-managed)                          | Self-hosted                               |
+| Setup              | Zero setup — built into GitHub                  | Requires installation & maintenance       |
+| Config format      | YAML                                            | Groovy (Jenkinsfile)                      |
+| Cost               | Free for public repos, paid minutes for private | Free (infrastructure cost only)           |
+| Plugin ecosystem   | GitHub Marketplace actions                      | 1,800+ plugins                            |
+| Scalability        | Auto-scales (GitHub runners)                    | Manual agent management                   |
+| Secrets management | GitHub Secrets (built-in)                       | Jenkins Credentials plugin                |
+| Integration        | Native GitHub (PRs, branches, tags)             | Webhooks, plugins                         |
+| Docker support     | Yes                                             | Yes                                       |
+| Best for           | GitHub-hosted projects, modern teams            | On-premise, enterprise, complex pipelines |
+| Learning curve     | Low                                             | Medium–High                               |
 
 ### When to Choose Which
 
 **Choose GitHub Actions when:**
+
 - Your code is already on GitHub
 - You want zero-maintenance CI/CD
 - Your team is small-to-medium sized
 - You want fast setup with YAML config
 
 **Choose Jenkins when:**
+
 - You need **full control** of your CI/CD infrastructure
 - You have **complex, custom pipeline requirements**
 - You work in an **enterprise on-premise environment**
@@ -771,6 +772,7 @@ jobs:
 ### Q: What is the difference between `git merge` and `git rebase`?
 
 **Answer:**
+
 - `git merge` combines two branches and creates a **merge commit** — preserves full history, safe for shared branches
 - `git rebase` moves or replays commits from one branch on top of another — creates **linear history** but rewrites commits
 
@@ -839,6 +841,7 @@ config/credentials/
 ### Q: What is the difference between `git fetch` and `git pull`?
 
 **Answer:**
+
 - `git fetch` — downloads changes from remote but **does not merge** them into your local branch. Safe — lets you review before merging.
 - `git pull` — fetches **and immediately merges** into your current branch. Equivalent to `git fetch` + `git merge`.
 
@@ -901,6 +904,7 @@ Jenkins triggers the relevant pipeline job
 ```
 
 Setup:
+
 1. In GitHub repo → Settings → Webhooks → Add webhook
 2. Enter Jenkins URL: `http://your-jenkins/github-webhook/`
 3. Select events: Push, Pull Request
@@ -910,26 +914,26 @@ Setup:
 
 ## 📌 Key Concepts Summary
 
-| Concept | Description |
-|---|---|
-| **Git** | Distributed version control system |
-| **Repository** | Project directory tracked by Git |
-| **Commit** | Snapshot of changes at a point in time |
-| **Branch** | Isolated line of development |
-| **Merge** | Combine two branches — preserves history |
-| **Rebase** | Replay commits on top of another branch — linear history |
-| **Pull Request** | Propose, review, and merge code via GitHub |
-| **GitFlow** | Structured branching model with develop + release branches |
-| **Trunk-Based Dev** | Short-lived branches merged to main frequently |
-| **CI** | Automatically test code on every push |
-| **CD** | Automatically deploy after CI passes |
-| **Jenkins** | Open-source self-hosted CI/CD automation server |
-| **Jenkinsfile** | Pipeline-as-code definition in Groovy |
-| **GitHub Actions** | Cloud-native CI/CD built into GitHub |
-| **Webhook** | HTTP callback to trigger Jenkins from GitHub events |
-| **git stash** | Temporarily shelve uncommitted changes |
-| **Branch Protection** | Enforce reviews and CI checks before merging |
+| Concept               | Description                                                |
+| --------------------- | ---------------------------------------------------------- |
+| **Git**               | Distributed version control system                         |
+| **Repository**        | Project directory tracked by Git                           |
+| **Commit**            | Snapshot of changes at a point in time                     |
+| **Branch**            | Isolated line of development                               |
+| **Merge**             | Combine two branches — preserves history                   |
+| **Rebase**            | Replay commits on top of another branch — linear history   |
+| **Pull Request**      | Propose, review, and merge code via GitHub                 |
+| **GitFlow**           | Structured branching model with develop + release branches |
+| **Trunk-Based Dev**   | Short-lived branches merged to main frequently             |
+| **CI**                | Automatically test code on every push                      |
+| **CD**                | Automatically deploy after CI passes                       |
+| **Jenkins**           | Open-source self-hosted CI/CD automation server            |
+| **Jenkinsfile**       | Pipeline-as-code definition in Groovy                      |
+| **GitHub Actions**    | Cloud-native CI/CD built into GitHub                       |
+| **Webhook**           | HTTP callback to trigger Jenkins from GitHub events        |
+| **git stash**         | Temporarily shelve uncommitted changes                     |
+| **Branch Protection** | Enforce reviews and CI checks before merging               |
 
 ---
 
-*Mastering Git workflows and CI/CD pipelines is a key differentiator in Data Engineering interviews — it shows you build production-grade, collaborative, and reliable data systems.*
+_Mastering Git workflows and CI/CD pipelines is a key differentiator in Data Engineering interviews — it shows you build production-grade, collaborative, and reliable data systems._
